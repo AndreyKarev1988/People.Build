@@ -44,7 +44,7 @@ public class Person {
     }
 
     public OptionalInt getAge() {
-        return OptionalInt.of(age);
+        return OptionalInt.empty();
 
     }
 
@@ -57,7 +57,7 @@ public class Person {
     }
 
     public void happyBirthday() {
-        age++;
+        if (hasAge()) age++;
     }
 
     @Override
@@ -84,6 +84,6 @@ public class Person {
     }
 
     public PersonBuilder newChildBuilder() {
-        return new PersonBuilder().setSurname(surname).setAge(age).setAddress(address);
+        return new PersonBuilder().setSurname(surname).setAge(1).setAddress(address);
     }
 }

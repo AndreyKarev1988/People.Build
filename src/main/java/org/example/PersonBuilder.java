@@ -6,25 +6,25 @@ public class PersonBuilder implements IPersonBuilder {
     private int age = -1;
     private String address;
 
-    public PersonBuilder setName(String name) throws IllegalArgumentException {
+    public PersonBuilder setName(String name) throws IllegalStateException {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Вы не указали имя");
+            throw new IllegalStateException("Вы не указали имя");
         } else {
             this.name = name;
         }
         return this;
     }
 
-    public PersonBuilder setSurname(String surname) throws IllegalArgumentException {
+    public PersonBuilder setSurname(String surname) throws IllegalStateException {
         if (surname == null || surname.isEmpty()) {
-            throw new IllegalArgumentException("Вы не указали фамилию");
+            throw new IllegalStateException("Вы не указали фамилию");
         } else {
             this.surname = surname;
         }
         return this;
     }
 
-    public PersonBuilder setAge(int age) {
+    public PersonBuilder setAge(int age) throws IllegalArgumentException {
         if (age < 0) {
             throw new IllegalArgumentException("Возраст не может быть отрицательным числом");
         } else {
@@ -39,11 +39,11 @@ public class PersonBuilder implements IPersonBuilder {
     }
 
     @Override
-    public Person build() throws IllegalArgumentException {
+    public Person build() throws IllegalStateException {
         if (name == null) {
-            throw new IllegalArgumentException("поле name обязательно для заполнения");
+            throw new IllegalStateException("поле name обязательно для заполнения");
         } else if (surname == null) {
-            throw new IllegalArgumentException("поле surname обязательно для заполнения");
+            throw new IllegalStateException("поле surname обязательно для заполнения");
         }
         Person person;
         if (age == -1) {
