@@ -27,8 +27,15 @@ public class Person {
         this.address = address;
     }
 
+    public Person(String name, String surname, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+    }
+
+
     public boolean hasAge() {
-        return age >= 0;
+        return age != 0;
     }
 
     public boolean hasAddress() {
@@ -43,9 +50,8 @@ public class Person {
         return surname;
     }
 
-    public OptionalInt getAge() {
-        return OptionalInt.empty();
-
+    public int getAge() {
+        return age;
     }
 
     public String getAddress() {
@@ -61,7 +67,7 @@ public class Person {
     }
 
     @Override
-    public String toString() {
+    /*public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
@@ -69,6 +75,25 @@ public class Person {
                 ", address='" + address + '\'' +
                 '}';
     }
+    */
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append(name);
+        str.append(" ");
+        str.append(surname);
+        str.append(", ");
+        if (hasAge()) {
+            str.append("age: ");
+            str.append(age);
+            str.append(", ");
+        }
+        if (hasAddress()) {
+            str.append("address: ");
+            str.append(address);
+        }
+        return str.toString();
+    }
+
 
     @Override
     public boolean equals(Object o) {

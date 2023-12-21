@@ -3,7 +3,7 @@ package org.example;
 public class PersonBuilder implements IPersonBuilder {
     private String name;
     private String surname;
-    private int age = -1;
+    private int age;
     private String address;
 
     public PersonBuilder setName(String name) throws IllegalStateException {
@@ -29,8 +29,8 @@ public class PersonBuilder implements IPersonBuilder {
             throw new IllegalArgumentException("Возраст не может быть отрицательным числом");
         } else {
             this.age = age;
+            return this;
         }
-        return this;
     }
 
     public PersonBuilder setAddress(String address) {
@@ -42,18 +42,20 @@ public class PersonBuilder implements IPersonBuilder {
     public Person build() throws IllegalStateException {
         if (name == null) {
             throw new IllegalStateException("поле name обязательно для заполнения");
-        } else if (surname == null) {
+        }
+        if (surname == null) {
             throw new IllegalStateException("поле surname обязательно для заполнения");
         }
-        Person person;
-        if (age == -1) {
-            person = new Person(name, surname);
-        } else {
-            person = new Person(name, surname, age);
+
+        if (age == 0 && address == null) {
+            return new Person(name, surname);
         }
-        if (address != null) {
-            person.setAddress(address);
+        if (address == null) {
+            return new Person(name, surname, age);
         }
-        return person;
+        if (age == 0) {
+            return new Person(name, surname, address);
+        }
+        return new Person(name, surname, age, address);
     }
 }
