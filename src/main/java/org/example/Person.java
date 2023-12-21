@@ -6,24 +6,14 @@ import java.util.OptionalInt;
 public class Person {
     protected final String name;
     protected final String surname;
-    protected int age;
+
+    protected OptionalInt age = OptionalInt.empty();
     protected String address;
-
-    public Person(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public Person(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
 
     public Person(String name, String surname, int age, String address) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.age = OptionalInt.of(age);
         this.address = address;
     }
 
@@ -35,7 +25,7 @@ public class Person {
 
 
     public boolean hasAge() {
-        return age != 0;
+        return age.isPresent();
     }
 
     public boolean hasAddress() {
@@ -50,7 +40,7 @@ public class Person {
         return surname;
     }
 
-    public int getAge() {
+    public OptionalInt getAge() {
         return age;
     }
 
@@ -63,35 +53,19 @@ public class Person {
     }
 
     public void happyBirthday() {
-        if (hasAge()) age++;
+        if (age.isPresent()) {
+            age = OptionalInt.of(age.getAsInt() + 1);
+        }
     }
 
     @Override
-    /*public String toString() {
+    public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", age=" + age +
+                ", age=" + (age.isPresent() ? age.getAsInt() : " возраст не установлен") +
                 ", address='" + address + '\'' +
                 '}';
-    }
-    */
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(name);
-        str.append(" ");
-        str.append(surname);
-        str.append(", ");
-        if (hasAge()) {
-            str.append("age: ");
-            str.append(age);
-            str.append(", ");
-        }
-        if (hasAddress()) {
-            str.append("address: ");
-            str.append(address);
-        }
-        return str.toString();
     }
 
 

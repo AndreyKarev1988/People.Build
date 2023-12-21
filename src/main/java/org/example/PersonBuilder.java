@@ -1,9 +1,11 @@
 package org.example;
 
+import java.util.OptionalInt;
+
 public class PersonBuilder implements IPersonBuilder {
     private String name;
     private String surname;
-    private int age;
+    private OptionalInt age = OptionalInt.empty();
     private String address;
 
     public PersonBuilder setName(String name) throws IllegalStateException {
@@ -28,7 +30,7 @@ public class PersonBuilder implements IPersonBuilder {
         if (age < 0) {
             throw new IllegalArgumentException("Возраст не может быть отрицательным числом");
         } else {
-            this.age = age;
+            this.age = OptionalInt.of(age);
             return this;
         }
     }
@@ -47,15 +49,10 @@ public class PersonBuilder implements IPersonBuilder {
             throw new IllegalStateException("поле surname обязательно для заполнения");
         }
 
-        if (age == 0 && address == null) {
-            return new Person(name, surname);
-        }
-        if (address == null) {
-            return new Person(name, surname, age);
-        }
-        if (age == 0) {
+        if (age.isPresent()) {
+            return new Person(name, surname, age.getAsInt(), address);
+        } else {
             return new Person(name, surname, address);
         }
-        return new Person(name, surname, age, address);
     }
 }
